@@ -1,0 +1,1741 @@
+https://hack.chat/?devopsschool
+
+ec2-user
+
+poonam joined		13.126.183.10		
+Arun joined		13.233.155.59
+Puja joined		13.232.12.40
+prateek joined		35.154.189.251
+Sindhu joined		52.66.239.11
+Suraj joined		13.232.125.191
+AbGupta joined		13.233.155.25
+Manikanta joined	13.233.151.159
+RevaChoubey joined	13.232.6.240
+Nidhi joined		13.233.116.133
+Rohit joined		52.66.236.186
+Sandeep joined		13.233.255.202
+Tanu joined		13.233.2.132
+Pradhi			13.233.117.171
+Ritu Raj		13.232.28.125
+		
+
+Start Time - 9:30 AM
+End Time - 5:PM
+===========================
+First Tea/Coffee break - 11.30 AM	15mins each 
+Second Tea/Coffee break - 3.30 PM 	15mins each
+Lunch Hour - 1.15 PM - 2:15 PM 		1 Hour
+-----------------------------------------------------
+Lab Infra - AWS
+============================================
+Agenda of the training - 
+https://www.devopsschool.com/courses/elasticsearch/elasticsearch-intermediate-training.html
++++++
+Logstash  + beats + Kibana
+===============================
+Rajesh Kumar
+http://rajeshkumar.xyz/cv
+DevOps
+==============================
+What is Elastic Search
+
+How to install and Configure Elastic Search?
+https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-install.html
+
+
+/home/ec2-user/elasticsearch-7.0.1/bin - A directory where you find exec to start es.
+	./elasticsearch	OR
+	./elasticsearch -d -p pid
+
+/home/ec2-user/elasticsearch-7.0.1/config
+	elasticsearch.yml - Is a config file for elasticsearch.
+
+
+[BEING A NORMAL USER]
+    1  ls
+    2  curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.0.1-linux-x86_64.tar.gz
+    3  ls
+    4  tar -xvf elasticsearch-7.0.1-linux-x86_64.tar.gz
+    5  ls
+    6  cd elasticsearch-7.0.1
+    7  ls
+    8  cd  bin
+    9  pwd
+   10  ls
+   11  ./elasticsearch -d -p pid
+   12  ps -eaf | grep elastic
+   13  history
+------------------How to validate es is running or not-----------
+[ec2-user@ip-172-31-28-198 bin]$ curl http://localhost:9200
+{
+  "name" : "ip-172-31-28-198.ap-south-1.compute.internal",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "twFCP-EKRnSqLDe_dhxr9g",
+  "version" : {
+    "number" : "7.0.1",
+    "build_flavor" : "default",
+    "build_type" : "tar",
+    "build_hash" : "e4efcb5",
+    "build_date" : "2019-04-29T12:56:03.145736Z",
+    "build_snapshot" : false,
+    "lucene_version" : "8.0.0",
+    "minimum_wire_compatibility_version" : "6.7.0",
+    "minimum_index_compatibility_version" : "6.0.0-beta1"
+  },
+  "tagline" : "You Know, for Search"
+}
+===================================================
+LAB 1 - Setting up a Elastic Search Instance in local Machine.
+===================================================
+
+===================================================
+LAB 2 - How to interact with Elastic Server using REST API?
+===================================================
+
+The cat API - The cat API print the info in JSON format, compact and aligned text which is easy to read by Human eyes. 
+
+All the cat commands accept a query string parameter "help" to see all the headers and info they provide, and the /_cat command alone lists all the available commands.
+
+$ curl -X GET "localhost:9200/_cat"
+
+[ec2-user@ip-172-31-28-198 ~]$ curl -X GET "localhost:9200/_cat"
+=^.^=
+/_cat/allocation
+/_cat/shards
+/_cat/shards/{index}
+/_cat/master
+/_cat/nodes
+/_cat/tasks
+/_cat/indices
+/_cat/indices/{index}
+/_cat/segments
+/_cat/segments/{index}
+/_cat/count
+/_cat/count/{index}
+/_cat/recovery
+/_cat/recovery/{index}
+/_cat/health
+/_cat/pending_tasks
+/_cat/aliases
+/_cat/aliases/{alias}
+/_cat/thread_pool
+/_cat/thread_pool/{thread_pools}
+/_cat/plugins
+/_cat/fielddata
+/_cat/fielddata/{fields}
+/_cat/nodeattrs
+/_cat/repositories
+/_cat/snapshots/{repository}
+/_cat/templates
+
+
+curl -X GET "localhost:9200/_cat/shards"
+curl -X GET "localhost:9200/_cat/master"
+curl -X GET "localhost:9200/_cat/nodes"
+curl -X GET "localhost:9200/_cat/indices"
+curl -X GET "localhost:9200/_cat/health"
+curl -X GET "localhost:9200/_cat/count
+curl -X GET "localhost:9200/_cat/count/{index}
+
+=======================================================================================
+Verbose
+=======================================================================================
+Each of the commands accepts a query string parameter v to turn on verbose output.\
+$ curl -X GET "localhost:9200/_cat/master?v"
+curl -X GET "localhost:9200/_cat/shards?v"
+
+curl -X GET "localhost:9200/_cat/nodes?v"
+curl -X GET "localhost:9200/_cat/indices?v"
+
+curl -X GET "localhost:9200/_cat/health?v"
+
+
+=======================================================================================
+Help
+=======================================================================================
+Each of the commands accepts a query string parameter help which will output its available columns.
+$ curl -X GET "localhost:9200/_cat/master?help"
+
+=======================================================================================
+Headers
+=======================================================================================
+Each of the commands accepts a query string parameter h which forces only those columns to appear.
+$ curl -X GET 'localhost:9200/_cat/nodes?h=ip,port,heapPercent,name'
+
+
+=======================================================================================
+Few CAT Commands Output
+=======================================================================================
+# Check node’s health status:
+curl -XGET 'localhost:9200/_cluster/health?pretty'
+curl -XGET 'localhost:9200/_cat/health?v'
+curl localhost:9200/_cat/health?help
+curl 'localhost:9200/_cat/health?format=json&pretty'
+
+curl -XGET 'localhost:9200/_cat/indices?pretty'
+
+
+curl -XGET 'localhost:9200/_cat/nodes?pretty'
+curl -XGET 'localhost:9200/_cat/nodes?pretty'
+curl localhost:9200/_cat/nodes?v
+curl localhost:9200/_cat/nodes?help
+curl 'localhost:9200/_cat/nodes?format=json&pretty'
+
+curl -XGET 'localhost:9200/_cat/shards?pretty'
+curl -XGET 'localhost:9200/_cat/shards?pretty'
+curl localhost:9200/_cat/shards?v
+curl localhost:9200/_cat/shards?help
+curl 'localhost:9200/_cat/shards?format=json&pretty'
+
+curl -XGET 'localhost:9200/_cat/master?pretty'
+curl localhost:9200/_cat/master?v
+curl localhost:9200/_cat/master?help
+curl 'localhost:9200/_cat/master?format=json&pretty'
+
+#List all indices
+curl -XGET 'localhost:9200/_cat/indices?pretty'
+curl localhost:9200/_cat/indices?v
+curl localhost:9200/_cat/indices?help
+curl 'localhost:9200/_cat/indices?format=json&pretty'
+
+==============================================================================
+==============================================================================
+			CRUD
+==============================================================================
+=======================================================================================
+Elasticsearch Workflow - CRUD Operations
+=======================================================================================
+https://www.devopsschool.com/blog/understanding-rest-http-method-get-post-put-head-delete/
+Create
+Read
+Update
+Delete
+
+FORMAT
+curl -X<VERB> '<PROTOCOL>://<HOST>:<PORT>/<PATH>?<QUERY_STRING>' -d '<BODY>'
+
+VERB - GET, POST, PUT, HEAD, or DELETE.
+GET (Retrieve information)
+POST (Create + Update)
+PUT (Create + Update)
+DELETE (Remove)
+
+Diff between POST Vs PUT
+Thus, only difference, that a POST can be used to achieve auto-generation of ids whereas a PUT is used when you want to specify an id.
+
+It's all about REST semantics. POST basically that you are posting a request which is going to modify the server state. POST index/type { "foo": "bar" } will generate an _id server side and will index the document with this _id. PUT is used to send a resource to the server. PUT index/type/id { "foo": "bar" } will put or update a document named index/type/id in the server. 
+
+
+PROTOCOL - http or https
+
+=======================================================================================
+CURL TO HTTP
+=======================================================================================
+Status codes indicate the result of the HTTP request.
+
+1XX – informational
+2XX – success
+3XX – redirection
+4XX – client error
+5XX – server error
+============================================
+=======================================================================================
+Demo 1 - curl and listing all indices 
+
+
+curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+
+# To create products index
+curl -XPUT 'localhost:9200/products?&pretty'
+
+# To create products-temp index
+curl -XPUT 'localhost:9200/products-temp?&pretty'
+
+curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+
+# To create customers index
+curl -XPUT 'localhost:9200/customers?&pretty'
+
+# To create orders index
+curl -XPUT 'localhost:9200/orders?&pretty'
+
+curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+
+=======================================================================================
+Index and Query a document
+=======================================================================================
+products -> index
+mobiles - Category OR TYPE
+1 - index UUID
+-d - Content of the document in JSON BODY
+
+curl -XPUT 'localhost:9200/products/mobiles/1?pretty' -d'
+{
+  "name": "iPhone 7",
+  "camera": "12MP",
+  "storage": "256GB",
+  "display": "4.7inch",
+  "battery": "1,960mAh",
+  "reviews": ["Incredibly happy after having used it for one week", "Best iPhone so far", "Very expensive, stick to Android"]
+}
+'
+
+curl -XPUT 'localhost:9200/products/mobiles/1?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "iPhone 7",
+  "camera": "12MP",
+  "storage": "256GB",
+  "display": "4.7inch",
+  "battery": "1,960mAh",
+  "reviews": ["Incredibly happy after having used it for one week", "Best iPhone so far", "Very expensive, stick to Android"]
+}
+'
+
+---OUTPUT------
+{
+  "_index" : "products",
+  "_type" : "mobiles",
+  "_id" : "1",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 0,
+  "_primary_term" : 1
+}
+
+{
+  "name": "iPhone 7",
+  "camera": "12MP",
+  "storage": "256GB",
+  "display": "4.7inch",
+  "battery": "1,960mAh",
+  "reviews": ["Incredibly happy after having used it for one week", "Best iPhone so far", "Very expensive, stick to Android"]
+}
+'
+---OUTPUT------
+
+curl -XPUT 'localhost:9200/products/mobiles/2?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "Samsung Galaxy",
+  "camera": "8MP",
+  "storage": "128GB",
+  "display": "5.2inch",
+  "battery": "1,500mAh",
+  "reviews": ["Best Android phone", "I love it!"]
+}
+'
+curl -XPUT 'localhost:9200/products/mobiles/3?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "Xiaomi Note",
+  "camera": "10MP",
+  "storage": "128GB",
+  "display": "5.5inch",
+  "battery": "1,500mAh",
+  "reviews": ["Really love Xiaomi products", "Too large to use easily"]
+}
+'
+ERROR
+--------
+Multiple mapping types are not supported in indices created in 6.0
+------------------------------
+curl -XPUT 'localhost:9200/products/laptops/4?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "Macbook Pro",
+  "storage": "500GB",
+  "RAM": "8GB",
+  "display": "13inch",
+  "os": "El Capitan",
+  "reviews": ["A little bulky but a great Mac laptop", "The larger storage capacity is great"]
+}
+'
+ERROR
+--------
+Multiple mapping types are not supported in indices created in 6.0
+------------------------------
+curl -XPUT 'localhost:9200/products-temp/laptops/1?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "Macbook Pro",
+  "storage": "500GB",
+  "RAM": "8GB",
+  "display": "13inch",
+  "os": "El Capitan",
+  "reviews": ["A little bulky but a great Mac laptop", "The larger storage capacity is great"]
+}
+'
+
+
+curl -XPUT 'localhost:9200/products-temp/laptops/2?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "Dell",
+  "storage": "1TB",
+  "RAM": "8GB",
+  "display": "14inch",
+  "os": "Windows 10",
+  "reviews": ["Great work laptop", "Not too heavy"]
+}
+'
+----ERROR------
+curl -XPOST 'localhost:9200/products-temp/mobiles?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "iPhone 6s",
+  "camera": "12MP",
+  "storage": "128GB",
+  "display": "4.7inch",
+  "battery": "1,960mAh",
+  "reviews": ["Incredibly happy after having used it for one week", "Best iPhone so far", "Very expensive, stick to Android"]
+}
+'
+----ERROR------
+
+curl -XPOST 'localhost:9200/products/mobiles?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "iPhone 6s",
+  "camera": "12MP",
+  "storage": "128GB",
+  "display": "4.7inch",
+  "battery": "1,960mAh",
+  "reviews": ["Incredibly happy after having used it for one week", "Best iPhone so far", "Very expensive, stick to Android"]
+}
+'
+
+curl -XPUT 'localhost:9200/products/mobiles?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "iPhone 6s",
+  "camera": "12MP",
+  "storage": "128GB",
+  "display": "4.7inch",
+  "battery": "1,960mAh",
+  "reviews": ["Incredibly happy after having used it for one week", "Best iPhone so far", "Very expensive, stick to Android"]
+}
+'
+PUT vs POST
+----------------
+PUT verb (“store this document at this URL”), we use the POST verb (“store this document under this URL”).
+
+
+curl -XPOST 'localhost:9200/products/mobiles/4?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "iPhone 6s",
+  "camera": "12MP",
+  "storage": "128GB",
+  "display": "4.7inch",
+  "battery": "1,960mAh",
+  "reviews": ["Incredibly happy after having used it for one week", "Best iPhone so far", "Very expensive, stick to Android"]
+}
+'
+
+========================
+PUT VS POST DEMO PENDING
+================================
+
+
+
+curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+curl -XGET 'localhost:9200/products/_search?pretty=true&q=*:*'
+curl -XGET 'localhost:9200/products-temp/_search?pretty=true&q=*:*'
+
+=======================================================================================
+DO YOU WANT TO UNDERSTAND THE INDEX MAPPING
+=======================================================================================
+https://www.devopsschool.com/blog/understanding-elasticsearch-index-mapping-schema/
+
+=======================================================================================
+Fetching whole documents
+=======================================================================================
+curl -XGET 'localhost:9200/products/mobiles/1'
+curl -XGET 'localhost:9200/products/mobiles/1?pretty'
+curl -XGET 'localhost:9200/products/mobiles/2?pretty'
+curl -XGET 'localhost:9200/products/mobiles/3?pretty'
+curl -XGET 'localhost:9200/products/mobiles/4?pretty'
+
+curl -XGET 'localhost:9200/products/laptops/1?pretty'
+curl -XGET 'localhost:9200/products/laptops/10?pretty'
+
+=========================================================
+========================
+PUT VS POST DEMO PENDING
+================================
+POST - CREATE + UPDATE
+PUT - CREATE + UPDATE (IDEOMPOTENT)
+
+The only difference - POST can be used to achieve auto-generation of ids whereas a PUT is used when you want to specify an id.
+
+It's all about REST semantics. POST basically that you are posting a request which is going to modify the server state. POST index/type { "foo": "bar" } will generate an _id server side and will index the document with this _id. PUT is used to send a resource to the server. PUT index/type/id { "foo": "bar" } will put or update a document named index/type/id in the server. 
+
+The two commands are not at all the same. The first one (with POST) will update a full document, not only the field you're sending.
+
+The second one (with PUT) will do a partial update and only update the fields you're sending, and not touch the other ones already present in the document.
+
+curl -XPOST 'localhost:9200/products/mobiles?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "iPhone 6s",
+  "camera": "12MP",
+  "storage": "128GB",
+  "display": "4.7inch",
+  "battery": "1,960mAh",
+  "reviews": ["Incredibly happy after having used it for one week", "Best iPhone so far", "Very expensive, stick to Android"]
+}
+'
+
+curl -XPUT 'localhost:9200/products/mobiles?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "iPhone 6s",
+  "camera": "12MP",
+  "storage": "128GB",
+  "display": "4.7inch",
+  "battery": "1,960mAh",
+  "reviews": ["Incredibly happy after having used it for one week", "Best iPhone so far", "Very expensive, stick to Android"]
+}
+'
+
+
+=======================================================================================
+Fetching partial documents
+=======================================================================================
+curl -XGET 'localhost:9200/products/mobiles/1?pretty'
+curl -XGET 'localhost:9200/products/mobiles/1?pretty&_source=false'
+curl -XGET 'localhost:9200/products/mobiles/1?pretty&_source=name,reviews'
+curl -XGET 'localhost:9200/products/mobiles/1?pretty&_source=name,reviews,storage'
+
+curl -XGET 'localhost:9200/products-temp/laptops/1?pretty&_source=name,RAM,storage'
+
+
+=======================================================================================
+Updating whole and partial documents
+=======================================================================================
+
+curl -XGET 'localhost:9200/products/mobiles/3?pretty'
+
+curl -XPUT 'localhost:9200/products/mobiles/3?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "Xiaomi Note",
+  "camera": "12MP",
+  "storage": "256GB",
+  "display": "5.5inch",
+  "battery": "1,800mAh",
+  "reviews": ["Really love Xiaomi products", "Too large to use easily"]
+}
+'
+
+=======================================================================================
+Partial Updates using the _update API with "doc"
+=======================================================================================
+https://www.devopsschool.com/blog/understanding-the-update-api-in-elasticsearch/
+
+curl -XGET 'localhost:9200/products/mobiles/2?pretty'
+
+curl -XPOST 'localhost:9200/products/mobiles/2/_update?pretty' -H 'Content-Type: application/json' -d'
+{
+  "doc": {
+     "color": "black"
+  }
+}
+'
+
+curl -XGET 'localhost:9200/products/mobiles/2?pretty'
+
+curl -XPOST 'localhost:9200/products/mobiles/2/_update?pretty' -H 'Content-Type: application/json' -d'
+{
+  "doc": {
+     "reviews": ["Best Android phone", "I love it!", "Samsung is my favorite"],
+     "texture": "smooth"
+  }
+}
+'
+=======================================================================================
+Updates using the _update API with "script"
+=======================================================================================
+curl -XGET 'localhost:9200/products'
+curl -XGET 'localhost:9200/products?pretty'
+curl -XGET 'localhost:9200/products/_search?pretty=true&q=*:*'
+
+curl -XPUT 'localhost:9200/products-shoe?&pretty'
+
+curl -XPUT 'localhost:9200/products-shoe/shoes/1?pretty' -H 'Content-Type: application/json' -d'
+{
+  "name": "Nike",
+  "size": 8,
+  "color": "white"
+}
+'
+
+curl -XGET 'localhost:9200/products-shoe/shoes/1?pretty'
+
+curl -XPOST 'localhost:9200/products-shoe/shoes/1/_update?pretty' -H 'Content-Type: application/json' -d'
+{
+  "script": "ctx._source.size += 2"
+}
+'
+curl -XGET 'localhost:9200/products-shoe/shoes/1?pretty'
+
+
+curl -XGET 'localhost:9200/products-shoe/shoes/2?pretty'
+
+curl -XPOST 'localhost:9200/products-shoe/shoes/2/_update?pretty' -d'
+{
+  "script": "ctx._source.size -= 1"
+}
+'
+curl -XGET 'localhost:9200/products-shoe/shoes/2?pretty'
+
+=======================================================================================
+Deleting an index
+======================================================================================= 
+curl -XGET 'localhost:9200/products/mobiles/2?pretty'
+curl -XDELETE 'localhost:9200/products/mobiles/2?pretty'
+curl -XGET 'localhost:9200/products/mobiles/2?pretty'
+
+-------------------
+curl -i -XHEAD 'localhost:9200/products/mobiles/2?pretty'
+curl -i -XHEAD 'localhost:9200/products/mobiles/1?pretty'
+--------------------
+
+curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+
+curl -XDELETE 'localhost:9200/orders?pretty'
+curl -XDELETE 'localhost:9200/products?pretty'
+curl -XDELETE 'localhost:9200/products-shoe?pretty'
+curl -XDELETE 'localhost:9200/products-temp?pretty'
+curl -XDELETE 'localhost:9200/customers?pretty'
+
+curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+=========================================================
+==========================================================
+How to count number of documents in index
+
+count provides quick access to the document count of the entire cluster, or individual indices.
+$ curl localhost:9200/_cat/count?v
+
+Or for a single index:
+-------------------------
+$ curl 'localhost:9200/_cat/count/products?v'
+
+================================================
+
+=======================================================================================
+Demo 7 - Bulk indexing documents
+=======================================================================================
+
+=======================================================================================
+Multi-get
+=======================================================================================
+
+curl -XGET 'localhost:9200/products/_search?pretty=true&q=*:*'
+
+
+curl -XGET 'localhost:9200/_mget?pretty' -H 'Content-Type: application/json' -d'
+{
+    "docs" : [
+        {
+            "_index" : "products",
+            "_type" : "mobiles",
+            "_id" : "T_xJwGoBTetr6lz4ziNX"
+        },
+        {
+            "_index" : "products",
+            "_type" : "mobiles",
+            "_id" : "3"
+        }
+    ]
+}
+'
+
+curl -XGET 'localhost:9200/products/_mget?pretty' -d'
+{
+    "docs" : [
+        {
+            "_type" : "laptops",
+            "_id" : "1"
+        },
+        {
+            "_type" : "laptops",
+            "_id" : "2"
+        }
+    ]
+}
+'
+
+curl -XGET 'localhost:9200/products/laptops/_mget?pretty' -d'
+{
+    "docs" : [
+        {
+            "_id" : "1"
+        },
+        {
+            "_id" : "2"
+        }
+    ]
+}
+'
+=======================================================================================
+Index multiple documents
+=======================================================================================
+curl -XPOST 'localhost:9200/_bulk?pretty' -H 'Content-Type: application/json' -d'
+{ "index" : { "_index" : "products", "_type" : "mobiles", "_id" : "3" } }
+{ "name": "Puma","size": 9,"color": "black" }
+
+{ "index" : { "_index" : "products", "_type" : "mobiles", "_id" : "4" } }
+{ "name": "New Balance","size": 8,"color": "black" }
+'
+
+curl -XPOST 'localhost:9200/products/_bulk?pretty' -d'
+{ "index" : {"_type" : "shoes", "_id" : "3" } }
+{ "name": "Puma","size": 9,"color": "black" }
+{ "index" : {"_type" : "shoes", "_id" : "4" } }
+{ "name": "New Balance","size": 8,"color": "black" }
+'
+
+curl -XPOST 'localhost:9200/products/shoes/_bulk?pretty' -d'
+{ "index" : {"_id" : "3" } }
+{ "name": "Puma","size": 9,"color": "black" }
+{ "index" : {"_id" : "4" } }
+{ "name": "New Balance","size": 8,"color": "black" }
+
+'
+=========================================================
+=========================================================
+=========================================================
+
+Day 2
+
+'
+=========================================================
+=========================================================
+=========================================================
+
+Rajesh 		13.234.35.219
+Tanu joined	13.232.50.49
+Sandeep joined	13.232.238.250
+Puja joined	13.234.17.77	
+Arun joined	13.234.113.32
+Nidhi joined	52.66.212.137
+Sindhu joined	13.233.174.189
+Rohit joined	13.126.84.208
+Abhishek joined	13.232.152.74
+Manikanta	13.126.220.196
+Prateek		13.234.186.187
+Poonam		13.233.114.160
+
+
+
+
+How to upload BULK data for Query DSL?
+=============================================
+cd
+sudo yum install wget -y
+wget https://www.devopsschool.com/notes/elastic/elasticsearch/customers_full.json
+
+[ec2-user@ip-172-31-21-125 ~]$ curl -H "Content-Type: application/x-ndjson" -XPOST 'localhost:9200/customers/personal/_bulk?pretty&refresh' --data-binary @"customers.json"
+Warning: Couldn't read data from file "customers.json", this makes an empty
+Warning: POST.
+{
+  "error" : {
+    "root_cause" : [
+      {
+        "type" : "parse_exception",
+        "reason" : "request body is required"
+      }
+    ],
+    "type" : "parse_exception",
+    "reason" : "request body is required"
+  },
+  "status" : 400
+}
+
+FIX - WRONG fILE nAME.....
+
+curl -H "Content-Type: application/x-ndjson" -XPOST 'localhost:9200/customers/personal/_bulk?pretty&refresh' --data-binary @"customers_full.json"
+
+[ec2-user@ip-172-31-21-125 ~]$ curl -H "Content-Type: application/x-ndjson" -XPO         ST 'localhost:9200/customers/personal/_bulk?pretty&refresh' --data-binary @"cust         omers_full.json"
+{
+  "error" : {
+    "root_cause" : [
+      {
+        "type" : "illegal_argument_exception",
+        "reason" : "The bulk request must be terminated by a newline [\\n]"
+      }
+    ],
+    "type" : "illegal_argument_exception",
+    "reason" : "The bulk request must be terminated by a newline [\\n]"
+  },
+  "status" : 400
+}
+
+FIX - Add a New line in customers_full.json or URL BODY
+
+curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+
+==========================================================================
+==========================================================================
+
+QUERY TERM SPECIFICATION - 2 WAYS
+1. QUERY PARAMETERS (Search terms as URL query parameters)
+	CURL
+	FULL URL ON BROWSERS
+2. REQUEST BODY (Search terms within the URL request body)
+=======================================================================================
+Search terms as URL query parameters
+=======================================================================================
+curl -XGET 'localhost:9200/customers/_search?q=wyoming&pretty'
+
+localhost:9200/customers/_search?q=wyoming&pretty
+
+curl -XGET 'localhost:9200/customers/_search?q=wyoming&sort=age:desc&pretty'
+curl -XGET 'localhost:9200/customers/_search?q=wyoming&sort=age:asc&pretty'
+
+curl -XGET 'localhost:9200/customers/_search?q=state:kentucky&sort=age:asc&pretty'
+
+curl -XGET 'localhost:9200/customers/_search?q=state:kentucky&from=10&size=2&pretty'
+
+curl -XGET 'localhost:9200/customers/_search?q=state:kentucky&pretty'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": { "match_all": {} }
+}
+' 
+
+=======================================================================================
+Searching using the request body
+=======================================================================================
+
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": {}
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty=true&q=*:*'
+
+
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": { "match_all": {} },
+  "size": 3
+}
+'
+
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": { "match_all": {} },
+  "size": 2
+}
+'
+
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": { "match_all": {} },
+  "from": 5, 
+  "size": 3
+}
+'
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": { "match_all": {} },
+  "sort": { "age": { "order": "desc" } },
+  "size": 20
+}
+'
+
+=======================================================================================
+Search Multiple Indices
+=======================================================================================
+curl -XGET 'localhost:9200/customers,products/_search?pretty'
+
+=======================================================================================
+Search Multiple Doc Types
+=======================================================================================
+curl -XGET 'localhost:9200/products/shoes,laptops/_search?pretty'
+
+=======================================================================================
+ACTUAL SEARCH - Query terms and source filtering
+=======================================================================================
+
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query" : {
+        "term" : { "name" : "gates" }
+    }
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query" : {
+        "term" : { "street" : "chestnut" }
+    }
+}
+'
+=======================================================================================
+Source filtering
+=======================================================================================
+curl -XGET 'localhost:9200/customers/_search?pretty'  -H 'Content-Type: application/json' -d'
+{
+    "_source" : false,
+    "query" : {
+        "term" : { "street" : "chestnut" }
+    }
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "_source" : "st*",
+    "query" : {
+        "term" : { "state" : "washington" }
+    }
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "_source" : ["st*", "*n*"],
+    "query" : {
+        "term" : { "state" : "washington" }
+    }
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+     "_source": {
+        "includes": ["st*", "*n*"],
+        "excludes": [ "*der" ]
+     },
+    "query" : {
+        "term" : { "state" : "washington" }
+    }
+}
+'
+
+TERM VS MATCH
+=======================================================================================
+Full text queries
+=======================================================================================
+FULL TEXT QUERIES USING-
+	match					- EACH WORD
+	match_phrase			- FULL PHRASE
+	match_phrase_prefix
+	
+=======================================================================================	
+The match keyword
+=======================================================================================
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match" : {
+            "name" : "webster"
+        }
+    }
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match" : {
+              "name" : {
+                  "query" : "frank norris",
+                  "operator" : "or"
+               }        
+        }
+    }
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match" : {
+              "name" : {
+                  "query" : "frank norris",
+                  "operator" : "and"
+               }        
+        }
+    }
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match" : {
+              "name" : {
+                  "query" : "Jeannine Norris",
+                  "operator" : "and"
+               }        
+        }
+    }
+}
+'
+----DEFAUL OPERATOR IS or
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match" : {
+            "street" : "tompkins place"
+        }
+    }
+}
+'
+=======================================================================================
+The match_phrase keyword
+=======================================================================================
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match_phrase" : {
+            "street" : "tompkins place"
+        }
+    }
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match_phrase" : {
+            "state" : "puerto rico"
+        }
+    }
+}
+'
+=======================================================================================
+The match_phrase_prefix
+=======================================================================================
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match_phrase_prefix" : {
+            "name" : "ma"
+        }
+    }
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "match_phrase_prefix" : {
+            "street" : "clymer st"
+        }
+    }
+}
+'
+SLIDE_-------------
+Relevance Algortihms
+	FUZZY - Searches might look at how similar the search term is to the word present in the document
+	TERM - Term searches might look at the percentage of search terms that were found in the document
+	
+Algortihms = TF/IDF 
+			Term Frequency / Inverse Document Frequency
+					Term Frequency - How often does the term appear in the field? == MORE OFTEN == MORE Relevance
+					Inverse Document Frequency - How often does the term appear in the index? == MORE OFTEN == LESS Relevance
+					Field-Length form - How long is the field which was searched? == Longer Fields == LESS Relevance
+						
+
+=======================================================================================
+Common terms queries
+=======================================================================================
+First Search in
+	LOW Frequency
+	HIGH Frequency
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "common": {
+            "reviews": {
+                "query": "this is great",
+                 "cutoff_frequency": 0.001
+            }
+        }
+    }
+}
+'
+#####  Cutoff Frequency - Terms with a frequency of > 0.1% are common terms
+
+
+=======================================================================================
+Boolean compound queries
+=======================================================================================
+Boolean Query can be used for more complex searches....
+	must
+	should
+	must_not
+	filter
+
+=======================================================================================	
+must
+=======================================================================================
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "street": "ditmas" } },
+        { "match": { "street": "avenue" } }
+      ]
+    }
+  }
+}
+'
+
+=======================================================================================
+should
+=======================================================================================
+curl -XGET 'localhost:9200/customers/_search?pretty'  -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "should": [
+        { "match": { "street": "ditmas" } },
+        { "match": { "street": "street" } }
+      ]
+    }
+  }
+}
+'
+=======================================================================================
+must_not
+=======================================================================================
+curl -XGET 'localhost:9200/customers/_search?pretty'  -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        { "match": { "state": "california texas" } },
+        { "match": { "street": "lane street" } }
+      ]
+    }
+  }
+}
+'
+=======================================================================================
+Term queries
+=======================================================================================
+Term Query - 
+	The exact term needs to be found in the inverted index for indexed documents.
+	The terms found in the index may vary based on how you analyze them.
+	
+
+
+
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "term": {
+            "state": {
+              "value": "idaho"
+            }
+          }
+        },
+        {
+          "term": {
+            "state": {
+              "value": "california"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+'
+
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "term": {
+            "state": {
+              "value": "idaho",
+              "boost": 2.0
+            }
+          }
+        },
+        {
+          "term": {
+            "state": {
+              "value": "california"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+'
+=======================================================================================
+Filters Context
+=======================================================================================
+Filters Context
+	Documents in the results are not scored
+	Each documents responds yes/no to wether it should be included in the result
+	
+	
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "must": { "match_all": {} },
+      "filter": {
+        "range": {
+          "age": {
+            "gte": 20,
+            "lte": 30
+          }
+        }
+      }
+    }
+  }
+}
+'
+=======================================================================================
+Using filters along with search terms
+=======================================================================================
+curl -XGET 'localhost:9200/customers/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": { 
+    "bool": { 
+      "must": 
+        { "match": { 
+             "state":   "alabama"
+        }
+      },
+      "filter": [ 
+        { "term":  { "gender": "female" }}, 
+        { "range": { "age": { "gte": "50" }}} 
+      ]
+    }
+  }
+}
+'
+
+=======================================================================================
+
+Demo 1 - Metrics aggregations,
+=======================================================================================
+Average
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -H 'Content-Type: application/json' -d'
+{
+   "size" : 0,
+    "aggs" : {
+        "avg_age" : { 
+             "avg" : { 
+                 "field" : "age" 
+             } 
+         }
+    }
+}
+'
+
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -H 'Content-Type: application/json' -d'
+{
+   "size" : 0,
+    "aggregations" : {
+        "avg_age" : { 
+             "avg" : { 
+                 "field" : "age" 
+             } 
+         }
+    }
+}
+'
+
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -H 'Content-Type: application/json' -d'
+{
+   "size" : 1,
+    "aggs" : {
+        "avg_age" : { 
+             "avg" : { 
+                 "field" : "age" 
+             } 
+         }
+    }
+}
+'
+
+Average with some search terms
+
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -H 'Content-Type: application/json' -d'
+{
+    "size" : 0,
+     "query" : {
+          "bool" : {
+               "filter" : {
+                   "match" : { "state" : "minnesota" }
+               }
+           }
+     },
+    "aggs" : {
+        "avg_age" : { 
+             "avg" : { 
+                 "field" : "age" 
+             } 
+         }
+    }
+}
+'
+
+Stats
+
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -H 'Content-Type: application/json' -d'
+{
+    "size" : 0,
+    "aggs" : {
+        "age_stats" : { 
+             "stats" : { 
+                 "field" : "age" 
+             } 
+         }
+    }
+}
+'
+
+Demo 2 - Aggregations might need fielddata, e.g. cardinality aggregation
+Cardinality
+
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -d'
+{
+   "size" : 0,
+    "aggs" : {
+        "age_count" : { 
+             "cardinality" : { 
+                 "field" : "age" 
+             } 
+         }
+    }
+}
+'
+
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -d'
+{
+   "size" : 0,
+    "aggs" : {
+        "gender_count" : { 
+             "cardinality" : { 
+                 "field" : "gender" 
+             } 
+         }
+    }
+}
+'
+
+curl -XPUT 'localhost:9200/customers/_mapping/personal?pretty' -d'
+{
+  "properties": {
+    "gender": { 
+      "type":     "text",
+      "fielddata": true
+    }                              
+  }            
+}         
+'
+
+Now re-run the original request
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -d'
+{
+   "size" : 0,
+    "aggs" : {
+        "gender_count" : { 
+             "cardinality" : { 
+                 "field" : "gender" 
+             } 
+         }
+    }
+}
+'
+
+Demo 3 - Bucketing aggregation by field values
+
+Term aggregations
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -d'
+{
+   "size" : 0,
+   "aggs" : {
+        "gender_bucket" : { 
+             "terms" : { 
+                 "field" : "gender" 
+             } 
+         }
+    }
+}
+'
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -d'
+{
+   "size" : 0,
+   "aggs" : {
+        "age_bucket" : { 
+             "terms" : { 
+                 "field" : "age" 
+             } 
+         }
+    }
+}
+'
+
+Range aggregation
+
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -d'
+{
+   "size" : 0,
+   "aggs" : {
+       "age_ranges" : {
+           "range" : {
+               "field" : "age",
+               "ranges" : [
+                   { "to" : 30 },
+                   { "from" : 30, "to" : 40 },
+                   { "from" : 40, "to" : 55 },
+                   { "from" : 55 }
+                ]
+            }
+        }
+     } 
+}
+'
+
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -d'
+{
+   "size" : 0,
+   "aggs" : {
+       "age_ranges" : {
+           "range" : {
+               "field" : "age",
+               "keyed" : true,
+               "ranges" : [
+                   { "to" : 30 },
+                   { "from" : 30, "to" : 40 },
+                   { "from" : 40, "to" : 55 },
+                   { "from" : 55 }
+                ]
+            }
+        }
+     } 
+}
+'
+
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -d'
+{
+   "size" : 0,
+   "aggs" : {
+       "age_ranges" : {
+           "range" : {
+               "field" : "age",
+               "keyed" : true,
+               "ranges" : [
+                   { "key": "young", "to" : 30 },
+                   { "key": "quarter-aged", "from" : 30, "to" : 40 },
+                   { "key": "middle-aged", "from" : 40, "to" : 55 },
+                   { "key": "senior", "from" : 55 }
+                ]
+            }
+        }
+     } 
+}
+'
+
+Demo 4 - Nesting aggregations
+
+2 level nesting
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -d'
+{
+   "size" : 0,
+   "aggs" : {
+        "gender_bucket" : { 
+             "terms" : { 
+                 "field" : "gender" 
+             }, 
+             "aggs": {
+                 "average_age": {
+                      "avg": {
+                          "field": "age"
+                      }
+                 }
+              }
+         }
+    }
+}
+'
+
+3 level nesting
+curl -XPOST 'localhost:9200/customers/_search?&pretty' -d'
+{
+   "size" : 0,
+   "aggs" : {
+        "gender_bucket" : { 
+             "terms" : { 
+                 "field" : "gender" 
+             }, 
+             "aggs" : {
+                 "age_ranges" : {
+                     "range" : {
+                         "field" : "age",
+                         "keyed" : true,
+                         "ranges" : [
+                             { "key": "young", "to" : 30 },
+                             { "key": "middle-aged", "from" : 30, "to" : 55 },
+                             { "key": "senior", "from" : 55 }
+                          ]
+                      },
+                      "aggs": {
+                          "average_age": {
+                               "avg": {
+                                   "field": "age"
+                               }
+                          }
+                       }
+                  }
+               } 
+         }
+    }
+}
+'
+
+Demo 5 - Filter and filters aggregations
+
+curl -XPOST 'localhost:9200/customers/_search?size=0&pretty' -d'
+{
+    "aggs" : {
+        "state" : {
+            "filter" : { "term": { "state": "texas" } },
+            "aggs" : {
+                "avg_age" : { "avg" : { "field" : "age" } }
+            }
+        }
+    }
+}
+'
+
+Filters
+
+curl -XGET 'localhost:9200/customers/_search?pretty'  -d'
+{
+  "size": 0,
+  "aggs" : {
+    "states" : {
+      "filters" : {
+        "filters" : {
+          "washington" :   { "match" : { "state" : "washington"   }},
+          "north carolina" :   { "match" : { "state" : "north carolina"   }},
+          "south dakota" : { "match" : { "state" : "south dakota" }}
+        }
+      }
+    }
+  }
+}
+'
+
+(Anonymous filters, returned in the same order as the original filter specification)
+curl -XGET 'localhost:9200/customers/_search?pretty'  -d'
+{
+  "size": 0,
+  "aggs" : {
+    "states" : {
+      "filters" : {
+        "filters" : [
+          { "match" : { "state" : "washington"   }},
+          { "match" : { "state" : "north carolina"   }},
+          { "match" : { "state" : "south dakota" }}
+        ]
+      }
+    }
+  }
+}
+'
+
+Other bucket
+curl -XGET 'localhost:9200/customers/_search?pretty'  -d'
+{
+  "size": 0,
+  "aggs" : {
+    "states" : {
+      "filters" : {
+        "other_bucket_key": "other_states",  
+        "filters" : {
+          "washington" :   { "match" : { "state" : "washington"   }},
+          "north carolina" :   { "match" : { "state" : "north carolina"   }},
+          "south dakota" : { "match" : { "state" : "south dakota" }}
+        }
+      }
+    }
+  }
+}
+'
+===================================================
+Node Roles
+	Client Node	-> es	(Common) + Special	13.232.81.25	172.31.18.239
+	Master Node	-> es	(Common) + Special	
+	Data Node	-> es	(Common) + Special
+	
+---------------Client Node----------------------------
+---------------Common Setup---------------------------
+
+
+$ sudo hostnamectl set-hostname es-client01
+$ hostname
+
+   17  sudo rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+   19  sudo vi /etc/yum.repos.d/elasticsearch.repo
+[elasticsearch-7.x]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+
+   20  sudo yum install elasticsearch -y
+   21  sudo systemctl start elasticsearch.service
+   22  curl http://localhost:9200
+   23  ps -eaf | grep elastic
+   24  curl http://localhost:9200
+   25  sudo systemctl stop elasticsearch.service
+
+
+
+$ vi /home/ec2-user/elasticsearch-7.0.1/config/elasticsearch.yml
+cluster.name: devopsschool
+network.host: 13.232.81.25
+node.name: es-client01
+node.client: true
+node.data: false
+
+$ ps -eaf | grep elastic
+$ kill -9 9814
+
+cd /home/ec2-user/elasticsearch-7.0.1/bin
+./elasticsearch -d -p pid
+curl http://13.232.81.25:9200
+curl http://172.31.18.239:9200
+
+
+---------------Master Node----------------------------13.232.224.209	172.31.28.134
+---------------Common Setup---------------------------	
+$ sudo hostnamectl set-hostname es-master01
+$ hostname
+
+sudo vi /etc/hosts
+172.31.18.239	es-client01
+172.31.28.134	es-master01
+172.31.30.113	es-data01
+
+
+   17  sudo rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+   19  sudo vi /etc/yum.repos.d/elasticsearch.repo
+[elasticsearch-7.x]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+   20  sudo yum install elasticsearch
+   21  sudo systemctl start elasticsearch.service
+   22  curl http://localhost:9200
+   23  ps -eaf | grep elastic
+   24  curl http://localhost:9200
+   25  sudo systemctl stop elasticsearch.service
+
+
+
+
+---------------Datat Node----------------------------13.232.124.20	172.31.30.113
+---------------Common Setup---------------------------
+$ sudo hostnamectl set-hostname es-data01
+$ hostname
+
+
+sudo vi /etc/hosts
+172.31.18.239	es-client01
+172.31.28.134	es-master01
+172.31.30.113	es-data01
+
+
+   17  sudo rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+   19  sudo vi /etc/yum.repos.d/elasticsearch.repo
+[elasticsearch-7.x]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+   20  sudo yum install elasticsearch
+   21  sudo systemctl start elasticsearch.service
+   22  curl http://localhost:9200
+   23  ps -eaf | grep elastic
+   24  curl http://localhost:9200
+   25  sudo systemctl stop elasticsearch.service
+
+sudo systemctl stop elasticsearch.service
+
+sudo vi /etc/elasticsearch/elasticsearch.yml
+cluster.name: devopsschool
+node.name: es-data01
+network.host: [_tun0_, _local_]
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: ["172.31.18.239", "172.31.28.134", "172.31.30.113",]
+node.data: true 
+node.master: false
+
+sudo service elasticsearch restart
+
+
+
+node.data=true
+node.master=false
+network.host=XXXX
+
+
+discovery.zen.ping.unicast.hosts: ["es-client-01", "es-master-01","es-data-01","]
+
+
+
+====================================================
+Subject - Elastic Search 
+
+Full Name - 
+Email Address
+City 
+Company - Deloitte
+
+
+Contact@DevOpsSchoolc.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
