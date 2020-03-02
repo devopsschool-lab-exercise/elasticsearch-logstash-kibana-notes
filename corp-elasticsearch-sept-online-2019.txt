@@ -1,0 +1,60 @@
+13.233.120.29
+
+Install and Configure
+=========================================================
+# yum install wget -y
+# wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
+# rpm -ivh jdk-8u131-linux-x64.rpm
+$ tar -zxvf jdk-8u181-linux-i586.tar.gz
+
+NORMAL USER
+$ export JAVA_HOME=/usr/java/jdk1.8.0_131
+$ export PATH=$PATH:$JAVA_HOME/bin
+
+
+http://devopsschool.com/tutorial/elastic/elastic-search-single-node-installation-and-verification-guide.html
+
+Documet(S) ===> ES CLUSTOR                  ===> curl  
+                    index
+                    shard1 shard2 shard3'
+                    rep1   rep2   rep
+                    
+=====================================================
+What is elastic search.
+Why we need elastic search?
+How to install single node CLUSTOR of ES
+validating es setup
+Cat API endpoints
+CRUD
+    create
+    read
+    update & delete
+    bulk ops
+DSL Query
+
+    http://swift.siphos.be/aglara/certificates.html
+
+file ---> fileBeat --> Logstash --> Elastic Search <--- Kibana -->  
+                                                Search      
+                                                Analyze
+                                                Reports
+                                                Alerts
+
+
+Logstash install and verification
+=============================================
+Elastic Search - http://devopsschool.com/tutorial/elastic/elastic-search-single-node-installation-and-verification-guide.html
+
+beats + Logstash - https://www.devopsschool.com/notes/elastic/log-astash-installations.txt
+
+Kibana - 
+
+wget https://artifacts.elastic.co/downloads/kibana/kibana-7.2.0-linux-x86_64.tar.gz
+tar -xzf kibana-7.2.0-linux-x86_64.tar.gz
+cd kibana-7.2.0-linux-x86_64/ 
+# modify a kibana.yaml with
+		elastic search client ip
+		ip addreess
+./bin/kibana
+
+
